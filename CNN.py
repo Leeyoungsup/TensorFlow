@@ -42,13 +42,13 @@ W5=tf.Variable(tf.random_normal([128*4*4,10],stddev=0.01))
 b5=tf.Variable(tf.random_normal([10]))
 Z5=logits=tf.matmul(A4_flat,W5)+b5
 y=A5=tf.nn.softmax(Z5)
-optimizer=tf.train.GradientDescentOptimizer(learning_rate)
+
 #세션생성
 sess=tf.Session()
-
+optimizer=tf.train.AdamOptimizer(learning_rate)
 loss=tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=Z5,labels=t))
 train=optimizer.minimize(loss)
-predicted_val=tf.equal(tf.argmax(y,1),tf.argmax(t,1))
+predicted_val=tf.equal(tf.argmax(A5,1),tf.argmax(t,1))
 accuracy=tf.reduce_mean(tf.cast(predicted_val,dtype=tf.float32))
 #변수 노드값 초기화
 sess.run(tf.global_variables_initializer())
